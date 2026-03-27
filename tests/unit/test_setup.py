@@ -1,6 +1,9 @@
 """Unit tests for the project setup module."""
 
 from pathlib import Path
+import re
+
+from strat_forge import __version__
 
 
 class TestGettingSetupConfiguration:
@@ -19,3 +22,22 @@ class TestGettingSetupConfiguration:
         assert 'packages=find_packages(where="src")' in setup_contents
         assert 'python_requires=">=3.14"' in setup_contents
         assert '"ruff>=0.15.8"' in setup_contents
+
+    def test_should_define_the_same_version_as_the_package(self) -> None:
+        """Assert that setup.py stays aligned with the package version."""
+        setup_path = Path(__file__).resolve().parents[2] / "setup.py"
+        setup_contents = setup_path.read_text(encoding="utf-8")
+        version_match = re.search(r'version="([^"]+)"', setup_contents)
+
+        assert version_match is not None
+        assert version_match.group(1) == __version__
+
+    def test_should_read_the_readme_as_the_long_description(self) -> None:
+        """Assert that setup.py uses the repository README as long description."""
+        setup_path = Path(__file__).resolve().parents[2] / "setup.py"
+        setup_contents = setup_path.read_text(encoding="utf-8")
+
+        assert 'README_PATH = Path(__file__).parent / "README.md"' in setup_contents
+        assert (
+            'long_description=README_PATH.read_text(encoding="utf-8")' in setup_contents
+        )

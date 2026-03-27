@@ -1,5 +1,7 @@
 # StratForge
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Maethorin/strat-forge/ci.yml?branch=main&label=build)](https://github.com/Maethorin/strat-forge/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/codecov/c/github/Maethorin/strat-forge?label=coverage)](https://codecov.io/gh/Maethorin/strat-forge) [![License](https://img.shields.io/badge/license-Unspecified-lightgrey)](#license) [![Python](https://img.shields.io/badge/python-3.14%2B-blue)](./pyproject.toml)
+
 Base scaffold for a Python library project using a `src` layout.
 
 ## Structure
@@ -12,7 +14,13 @@ Base scaffold for a Python library project using a `src` layout.
 │   └── strat_forge/
 │       └── __init__.py
 └── tests/
-    └── test_package.py
+    └── unit/
+        ├── strat_forge/
+        │   └── test___init__.py
+        ├── test_github_actions.py
+        ├── test_pyproject.py
+        ├── test_readme.py
+        └── test_setup.py
 ```
 
 ## Quickstart
@@ -23,3 +31,7 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 pytest
 ```
+
+## License
+
+This project does not currently declare a repository license file. The badge above reflects that the license is unspecified.
