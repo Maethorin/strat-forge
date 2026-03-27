@@ -69,7 +69,7 @@ class TestGettingPyprojectProjectMetadata:
         pyproject_path = Path(__file__).resolve().parents[2] / "pyproject.toml"
         pyproject_contents = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
 
-        assert pyproject_contents["project"]["license"] == {"file": "LICENSE"}
+        assert pyproject_contents["project"]["license"] == {"file": "LICENSE.md"}
 
     def test_should_define_both_repository_license_files(self) -> None:
         """Assert that pyproject.toml exposes both repository license files."""
@@ -77,7 +77,7 @@ class TestGettingPyprojectProjectMetadata:
         pyproject_contents = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
 
         assert pyproject_contents["project"]["license-files"] == [
-            "LICENSE",
+            "LICENSE.md",
             "LICENSE-COMMERCIAL.md",
         ]
 

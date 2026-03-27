@@ -48,5 +48,5 @@ class TestGettingReadmeLicenseSection:
 
         assert "non-commercial use" in readme_contents.lower()
         assert "commercial license" in readme_contents.lower()
-        assert "see LICENSE" in readme_contents
+        assert "see LICENSE.md" in readme_contents
         assert "LICENSE-COMMERCIAL.md" in readme_contents

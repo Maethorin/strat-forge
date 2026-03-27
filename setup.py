@@ -14,7 +14,7 @@ setup(
     description="Base package for the StratForge Python library.",
     long_description=README_PATH.read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
-    license_files=["LICENSE", "LICENSE-COMMERCIAL.md"],
+    license_files=["LICENSE.md", "LICENSE-COMMERCIAL.md"],
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     python_requires=">=3.14",

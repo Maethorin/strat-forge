@@ -48,4 +48,4 @@ class TestGettingSetupConfiguration:
         setup_path = Path(__file__).resolve().parents[2] / "setup.py"
         setup_contents = setup_path.read_text(encoding="utf-8")
 
-        assert 'license_files=["LICENSE", "LICENSE-COMMERCIAL.md"]' in setup_contents
+        assert 'license_files=["LICENSE.md", "LICENSE-COMMERCIAL.md"]' in setup_contents
