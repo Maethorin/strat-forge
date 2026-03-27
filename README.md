@@ -1,6 +1,6 @@
 # StratForge
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Maethorin/strat-forge/ci.yml?branch=main&label=build)](https://github.com/Maethorin/strat-forge/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/codecov/c/github/Maethorin/strat-forge?label=coverage)](https://codecov.io/gh/Maethorin/strat-forge) [![License](https://img.shields.io/badge/license-Unspecified-lightgrey)](#license) [![Python](https://img.shields.io/badge/python-3.14%2B-blue)](./pyproject.toml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Maethorin/strat-forge/ci.yml?branch=main&label=build)](https://github.com/Maethorin/strat-forge/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/codecov/c/github/Maethorin/strat-forge?label=coverage)](https://codecov.io/gh/Maethorin/strat-forge) [![License](https://img.shields.io/badge/license-Non--Commercial-lightgrey)](./LICENSE) [![Python](https://img.shields.io/badge/python-3.14%2B-blue)](./pyproject.toml)
 
 Base scaffold for a Python library project using a `src` layout.
 
@@ -8,6 +8,8 @@ Base scaffold for a Python library project using a `src` layout.
 
 ```text
 .
+├── LICENSE
+├── LICENSE-COMMERCIAL.md
 ├── pyproject.toml
 ├── README.md
 ├── src/
@@ -34,4 +36,10 @@ pytest
 
 ## License
 
-This project does not currently declare a repository license file. The badge above reflects that the license is unspecified.
+StratForge is available under a non-commercial license:
+
+- Free for non-commercial use. see LICENSE.
+- Commercial use requires a separate commercial license (see LICENSE-COMMERCIAL.md).
+
+For commercial licensing, contact:
+ti@mae42.com.br

@@ -22,6 +22,7 @@ class TestGettingSetupConfiguration:
         assert 'packages=find_packages(where="src")' in setup_contents
         assert 'python_requires=">=3.14"' in setup_contents
         assert '"ruff>=0.15.8"' in setup_contents
+        assert '"pytest-cov>=6.0"' in setup_contents
 
     def test_should_define_the_same_version_as_the_package(self) -> None:
         """Assert that setup.py stays aligned with the package version."""
@@ -41,3 +42,10 @@ class TestGettingSetupConfiguration:
         assert (
             'long_description=README_PATH.read_text(encoding="utf-8")' in setup_contents
         )
+
+    def test_should_include_the_repository_license_file(self) -> None:
+        """Assert that setup.py includes the repository license metadata."""
+        setup_path = Path(__file__).resolve().parents[2] / "setup.py"
+        setup_contents = setup_path.read_text(encoding="utf-8")
+
+        assert 'license_files=["LICENSE", "LICENSE-COMMERCIAL.md"]' in setup_contents

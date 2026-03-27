@@ -64,6 +64,23 @@ class TestGettingPyprojectProjectMetadata:
 
         assert pyproject_contents["project"]["requires-python"] == ">=3.14"
 
+    def test_should_define_the_license_file_as_project_metadata(self) -> None:
+        """Assert that pyproject.toml exposes the repository license file."""
+        pyproject_path = Path(__file__).resolve().parents[2] / "pyproject.toml"
+        pyproject_contents = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
+
+        assert pyproject_contents["project"]["license"] == {"file": "LICENSE"}
+
+    def test_should_define_both_repository_license_files(self) -> None:
+        """Assert that pyproject.toml exposes both repository license files."""
+        pyproject_path = Path(__file__).resolve().parents[2] / "pyproject.toml"
+        pyproject_contents = tomllib.loads(pyproject_path.read_text(encoding="utf-8"))
+
+        assert pyproject_contents["project"]["license-files"] == [
+            "LICENSE",
+            "LICENSE-COMMERCIAL.md",
+        ]
+
     def test_should_define_the_src_layout_wheel_package(self) -> None:
         """Assert that pyproject.toml points the wheel build to the src package."""
         pyproject_path = Path(__file__).resolve().parents[2] / "pyproject.toml"
