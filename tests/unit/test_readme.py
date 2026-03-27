@@ -29,6 +29,14 @@ class TestGettingReadmeBadges:
         assert "commits" not in badge_line.lower()
         assert "unspecified" not in badge_line.lower()
 
+    def test_should_target_the_master_branch_in_the_build_badge(self) -> None:
+        """Assert that the build badge targets the repository default branch."""
+        readme_path = Path(__file__).resolve().parents[2] / "README.md"
+        badge_line = readme_path.read_text(encoding="utf-8").splitlines()[2]
+
+        assert "branch=master" in badge_line
+        assert "branch=main" not in badge_line
+
 
 class TestGettingReadmeLicenseSection:
     """Describe the README license section contract."""

@@ -1,6 +1,6 @@
 # StratForge
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Maethorin/strat-forge/ci.yml?branch=main&label=build)](https://github.com/Maethorin/strat-forge/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/codecov/c/github/Maethorin/strat-forge?label=coverage)](https://codecov.io/gh/Maethorin/strat-forge) [![License](https://img.shields.io/badge/license-Non--Commercial-lightgrey)](./LICENSE) [![Python](https://img.shields.io/badge/python-3.14%2B-blue)](./pyproject.toml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Maethorin/strat-forge/ci.yml?branch=master&label=build)](https://github.com/Maethorin/strat-forge/actions/workflows/ci.yml) [![Coverage](https://img.shields.io/codecov/c/github/Maethorin/strat-forge?label=coverage)](https://codecov.io/gh/Maethorin/strat-forge) [![License](https://img.shields.io/badge/license-Non--Commercial-lightgrey)](./LICENSE) [![Python](https://img.shields.io/badge/python-3.14%2B-blue)](./pyproject.toml)
 
 Base scaffold for a Python library project using a `src` layout.
 
