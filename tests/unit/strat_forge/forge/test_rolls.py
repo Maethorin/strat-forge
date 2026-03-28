@@ -1,6 +1,6 @@
 """Unit tests for the ``strat_forge.forge.rolls`` module."""
 
-import strat_forge.forge.rolls as rolls
+from strat_forge.forge import rolls
 
 
 class TestCreatingThreeDiceRoll:

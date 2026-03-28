@@ -1,6 +1,6 @@
 """Unit tests for the ``strat_forge.forge.skills`` module."""
 
-import strat_forge.forge.skills as skills
+from strat_forge.forge import skills
 
 
 class TestGettingSkillsModuleDocumentation:

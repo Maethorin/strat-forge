@@ -1,6 +1,6 @@
-"""Unit tests for the ``strat_forge.infrastructure.rolls`` module."""
+"""Unit tests for the ``strat_forge.infrastructure.dices`` module."""
 
-import strat_forge.infrastructure.rolls as rolls
+from strat_forge.infrastructure import dices
 
 
 class TestRollingThreeDice:
@@ -15,9 +15,9 @@ class TestRollingThreeDice:
             assert end == 6
             return next(generated_values)
 
-        monkeypatch.setattr(rolls.random, "randint", fake_randint)
+        monkeypatch.setattr(dices.random, "randint", fake_randint)
 
-        three_dice_roller = rolls.ThreeDiceRoller.create()
+        three_dice_roller = dices.ThreeDiceRoller.create()
         three_dice_values = three_dice_roller.roll()
 
         assert three_dice_values == (2, 4, 5)

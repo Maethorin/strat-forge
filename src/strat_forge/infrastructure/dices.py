@@ -1,4 +1,4 @@
-"""Infrastructure roll generators for StratForge."""
+"""Infrastructure dice generators for StratForge."""
 
 import random
 import typing

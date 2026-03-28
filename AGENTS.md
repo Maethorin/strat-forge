@@ -1162,6 +1162,19 @@ All imports must be module-level.
 
 Do NOT import classes, functions, or objects directly from modules.
 
+When importing internal project modules, prefer importing the module from its immediate parent package.
+
+Preferred:
+
+    from strat_forge import services
+    from strat_forge.forge import rolls
+    from strat_forge.infrastructure import dices
+
+Avoid:
+
+    import strat_forge.forge.rolls as rolls
+    import strat_forge.infrastructure.dices as dices
+
 Forbidden:
 
     from strat_forge.services import RollService
@@ -1189,10 +1202,14 @@ Do not alias a module to the same generic name it already exposes at the end of 
 Forbidden:
 
     import strat_forge.exceptions as exceptions
+    import strat_forge.forge.rolls as rolls
+    import strat_forge.infrastructure.dices as dices
 
 Required:
 
     from strat_forge import exceptions
+    from strat_forge.forge import rolls
+    from strat_forge.infrastructure import dices
 
 Use aliases only when they introduce real disambiguation or improve clarity in a meaningful way.
 

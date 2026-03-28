@@ -21,7 +21,7 @@ Base scaffold for a Python library project using a `src` layout.
 │       ├── exceptions.py
 │       ├── infrastructure/
 │       │   ├── __init__.py
-│       │   └── rolls.py
+│       │   └── dices.py
 │       ├── services.py
 │       └── forge/
 │           ├── __init__.py
@@ -36,7 +36,7 @@ Base scaffold for a Python library project using a `src` layout.
         │   │   └── test_skills.py
         │   ├── infrastructure/
         │   │   ├── __init__.py
-        │   │   └── test_rolls.py
+        │   │   └── test_dices.py
         │   ├── test___init__.py
         │   ├── test_exceptions.py
         │   └── test_services.py
