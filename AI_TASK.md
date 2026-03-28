@@ -298,6 +298,147 @@ The agent must not:
 
 ---
 
+## Pre-Completion Safety Checks
+
+### Rule: Run a Sanity Security Review Before Finishing
+
+Before considering any task complete, the agent must perform a sanity security review of all created or modified files.
+
+This review must look for accidental exposure of sensitive or environment-specific information, including but not limited to:
+
+- API keys
+- tokens
+- passwords
+- private credentials
+- secrets in code, tests, fixtures, or documentation
+- absolute file system paths
+- server-specific paths
+- local machine usernames
+- private URLs or internal endpoints
+- internal IP addresses
+- private certificates or keys
+- sensitive environment variable values
+- accidental debug data
+- hardcoded confidential identifiers
+
+If any such content is found, the agent must remove, replace, or sanitize it before finishing the task.
+
+A task is not complete until this review is done.
+
+---
+
+### Rule: Never Commit Sensitive Data
+
+The agent must never introduce into the repository:
+
+- real secrets
+- real credentials
+- real private tokens
+- real private keys
+- real production endpoints
+- real internal infrastructure details
+
+When examples are needed, use placeholders such as:
+
+- `YOUR_API_KEY`
+- `YOUR_TOKEN_HERE`
+- `/path/to/project`
+- `example.com`
+- `127.0.0.1`
+
+Never use realistic sensitive values.
+
+---
+
+### Rule: Sanitize Environment-Specific Details
+
+The agent must avoid exposing local or server-specific information in the codebase.
+
+Replace or generalize:
+
+- absolute local paths
+- personal home directories
+- machine-specific folders
+- internal hostnames
+- deployment-specific structure details
+
+Prefer neutral examples and portable paths.
+
+Good examples:
+
+    /path/to/project
+    ./data/config.json
+    ${PROJECT_ROOT}/config
+
+Avoid examples like:
+
+    /home/username/private-project/config.json
+    /var/www/internal/app/secrets.json
+
+---
+
+### Rule: Review Documentation and Tests for Leaks
+
+The security sanity review must include:
+
+- production code
+- tests
+- fixtures
+- examples
+- documentation
+- README updates
+- configuration files
+
+Sensitive information often leaks through non-production files.
+Do not review code only.
+
+---
+
+### Rule: Replace Secrets With Placeholders
+
+If a task requires showing configuration examples, use placeholders instead of real values.
+
+Examples:
+
+- `STRATFORGE_API_KEY=YOUR_API_KEY`
+- `DATABASE_URL=postgresql://user:password@localhost:5432/dbname`
+
+Do not use real internal values, even temporarily.
+
+---
+
+### Rule: Security Review Is Part of Definition of Done
+
+A task that creates or modifies files is not complete until the sanity security review has been performed.
+
+This review is mandatory before the agent considers the work ready for commit or push.
+
+---
+
+### Rule: Passing Tests Is Not Enough for Completion
+
+Passing tests, lint, and formatting do not replace the mandatory sanity security review.
+
+The agent must check both:
+- technical correctness
+- accidental exposure risks
+
+---
+
+## Sensitive Data Red Flags
+
+The agent must pay extra attention to:
+
+- strings that look like tokens or keys
+- `.env` values copied into examples
+- stack traces exposing local paths
+- copied terminal output containing usernames or directories
+- test fixtures containing real secrets
+- config files with filled credentials
+- internal domains, hosts, or IPs
+
+---
+
 ## When Unsure
 
 If uncertain, the agent must prefer:

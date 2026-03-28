@@ -1064,6 +1064,85 @@ Project-specific readability rules always take precedence over generic style con
 
 ---
 
+## Import Rules
+
+### Rule: Always Import Modules, Never Classes or Functions Directly
+
+All imports must be module-level.
+
+Do NOT import classes, functions, or objects directly from modules.
+
+Forbidden:
+
+    from strat_forge.services import RollService
+
+Required:
+
+    from strat_forge import services
+
+Usage must always be qualified through the module:
+
+    services.RollService
+
+---
+
+### Rule: Use Module Names as Namespaces
+
+Modules must act as explicit namespaces.
+
+All access to classes, functions, or constants must be done through the module.
+
+Good:
+
+    services.RollService
+    forge.Unit
+    infrastructure.HttpClient
+
+Avoid:
+
+    RollService
+    Unit
+    HttpClient
+
+---
+
+### Rule: Do Not Flatten Imports
+
+Do not reduce import verbosity by importing internal symbols directly.
+
+Explicit module access improves:
+
+- readability
+- traceability
+- architectural clarity
+- consistency across the codebase
+
+---
+
+### Rule: Preserve Layer Visibility Through Imports
+
+Imports must reflect the architectural layer being accessed.
+
+Example:
+
+    from strat_forge import services
+
+This makes the dependency explicit and aligned with the architecture.
+
+Avoid hiding the origin of a dependency through direct symbol imports.
+
+---
+
+### Rule: Avoid Ambiguous Symbol Origins
+
+Code must make it immediately clear where a symbol comes from.
+
+A reader must be able to identify the source module without searching for the import.
+
+Explicit module-qualified access is mandatory.
+
+---
+
 ## Implementation Checklist
 
 Before finishing a task, the agent must verify all of the following:
