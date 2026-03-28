@@ -27,7 +27,8 @@ Base scaffold for a Python library project using a `src` layout.
 │           ├── __init__.py
 │           ├── entities/
 │           │   ├── __init__.py
-│           │   └── skills.py
+│           │   ├── skills.py
+│           │   └── traits.py
 │           └── resolution/
 │               ├── __init__.py
 │               └── rolls.py
@@ -38,7 +39,8 @@ Base scaffold for a Python library project using a `src` layout.
         │   │   ├── __init__.py
         │   │   ├── entities/
         │   │   │   ├── __init__.py
-        │   │   │   └── test_skills.py
+        │   │   │   ├── test_skills.py
+        │   │   │   └── test_traits.py
         │   │   └── resolution/
         │   │       ├── __init__.py
         │   │       └── test_rolls.py
