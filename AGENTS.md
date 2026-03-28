@@ -133,6 +133,8 @@ Rules for this layer:
   - modules from inside this project
 - Avoid unnecessary external dependencies in this layer
 - Domain concepts, rules, invariants, and behavior belong here
+- Production modules inside `forge` must not directly import other forge implementation modules
+- Forge type notation for cross-module domain collaborators must go through the `forge.types` namespace using protocols
 
 ##### `infrastructure`
 Support layer for technical concerns.
@@ -1167,12 +1169,12 @@ When importing internal project modules, prefer importing the module from its im
 Preferred:
 
     from strat_forge import services
-    from strat_forge.forge import rolls
+    from strat_forge.forge.resolution import rolls
     from strat_forge.infrastructure import dices
 
 Avoid:
 
-    import strat_forge.forge.rolls as rolls
+    import strat_forge.forge.resolution.rolls as rolls
     import strat_forge.infrastructure.dices as dices
 
 Forbidden:
@@ -1202,13 +1204,13 @@ Do not alias a module to the same generic name it already exposes at the end of 
 Forbidden:
 
     import strat_forge.exceptions as exceptions
-    import strat_forge.forge.rolls as rolls
+    import strat_forge.forge.resolution.rolls as rolls
     import strat_forge.infrastructure.dices as dices
 
 Required:
 
     from strat_forge import exceptions
-    from strat_forge.forge import rolls
+    from strat_forge.forge.resolution import rolls
     from strat_forge.infrastructure import dices
 
 Use aliases only when they introduce real disambiguation or improve clarity in a meaningful way.
@@ -1245,6 +1247,51 @@ Explicit module access improves:
 - traceability
 - architectural clarity
 - consistency across the codebase
+
+---
+
+### Rule: Forge Modules Must Not Import Other Forge Implementation Modules Directly
+
+Production modules inside `src/strat_forge/forge` must not directly import other forge implementation modules.
+
+Forbidden examples:
+
+    from strat_forge.forge.entities import traits
+    from strat_forge.forge.entities import skills
+    from strat_forge.forge.resolution import rolls
+
+Allowed:
+
+    from strat_forge import services
+    from strat_forge.forge.types import traits
+
+If a forge module needs another forge implementation module at runtime, obtain it through the `services` layer.
+
+If a forge module needs a cross-module type annotation, import the corresponding protocol module from `strat_forge.forge.types`.
+
+---
+
+### Rule: Type Notation In Forge Must Use Protocols From `forge/types`
+
+When a forge module needs to annotate a collaborator, aggregate member, or return contract that is implemented in another forge module, the annotation must use a protocol defined under `src/strat_forge/forge/types`.
+
+Examples:
+
+    from strat_forge.forge.types import traits
+
+    advantages: tuple[traits.AdvantageContract, ...] = ()
+
+Preferred locations:
+- `src/strat_forge/forge/types/traits.py`
+- `src/strat_forge/forge/types/skills.py`
+- `src/strat_forge/forge/types/factions.py`
+- `src/strat_forge/forge/types/resolution.py`
+
+Do not introduce a generic catch-all module such as:
+- `src/strat_forge/forge/core/types.py`
+- `src/strat_forge/forge/types.py`
+
+Keep protocols grouped by domain concept, not in a generic dumping-ground module.
 
 ---
 

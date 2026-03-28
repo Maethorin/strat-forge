@@ -53,3 +53,52 @@ class TestGettingModuleOnlyImports:
             return True
 
         return importlib.util.find_spec(f"{module_name}.{imported_name}") is not None
+
+
+class TestGettingForgeInternalImportBoundaries:
+    """Describe the internal forge import boundary convention."""
+
+    def test_should_only_import_other_forge_modules_through_the_forge_types_namespace(self) -> None:
+        """Assert that forge source modules avoid direct imports of other forge implementation modules."""
+        repository_root = pathlib.Path(__file__).resolve().parents[2]
+        python_paths = sorted((repository_root / "src" / "strat_forge" / "forge").rglob("*.py"))
+        violating_imports: list[str] = []
+
+        for python_path in python_paths:
+            module_tree = ast.parse(python_path.read_text(encoding="utf-8"))
+
+            for node in ast.walk(module_tree):
+                if self._is_a_violating_forge_import(node):
+                    violating_imports.append(f"{python_path.relative_to(repository_root)}:{node.lineno}")
+
+        assert violating_imports == []
+
+    @classmethod
+    def _is_a_violating_forge_import(cls, node: ast.AST) -> bool:
+        """Return whether the node imports a forge implementation module directly."""
+        if isinstance(node, ast.Import):
+            return any(cls._is_a_violating_module_name(imported_name.name) for imported_name in node.names)
+
+        if isinstance(node, ast.ImportFrom):
+            if node.module is None:
+                return False
+
+            return cls._is_a_violating_import_from(node.module, tuple(imported_name.name for imported_name in node.names))
+
+        return False
+
+    @classmethod
+    def _is_a_violating_import_from(cls, module_name: str, imported_names: tuple[str, ...]) -> bool:
+        """Return whether an import-from statement targets a forge implementation module directly."""
+        if module_name.startswith("strat_forge.forge.types"):
+            return False
+
+        if module_name == "strat_forge.forge":
+            return any(imported_name != "types" for imported_name in imported_names)
+
+        return module_name.startswith("strat_forge.forge")
+
+    @classmethod
+    def _is_a_violating_module_name(cls, module_name: str) -> bool:
+        """Return whether an imported module name targets a forge implementation module directly."""
+        return module_name.startswith("strat_forge.forge") and not module_name.startswith("strat_forge.forge.types")

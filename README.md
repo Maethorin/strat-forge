@@ -27,11 +27,18 @@ Base scaffold for a Python library project using a `src` layout.
 │           ├── __init__.py
 │           ├── entities/
 │           │   ├── __init__.py
+│           │   ├── factions.py
 │           │   ├── skills.py
 │           │   └── traits.py
-│           └── resolution/
+│           ├── resolution/
+│           │   ├── __init__.py
+│           │   └── rolls.py
+│           └── types/
 │               ├── __init__.py
-│               └── rolls.py
+│               ├── factions.py
+│               ├── resolution.py
+│               ├── skills.py
+│               └── traits.py
 └── tests/
     └── unit/
         ├── strat_forge/
@@ -39,11 +46,18 @@ Base scaffold for a Python library project using a `src` layout.
         │   │   ├── __init__.py
         │   │   ├── entities/
         │   │   │   ├── __init__.py
+        │   │   │   ├── test_factions.py
         │   │   │   ├── test_skills.py
         │   │   │   └── test_traits.py
-        │   │   └── resolution/
+        │   │   ├── resolution/
+        │   │   │   ├── __init__.py
+        │   │   │   └── test_rolls.py
+        │   │   └── types/
         │   │       ├── __init__.py
-        │   │       └── test_rolls.py
+        │   │       ├── test_factions.py
+        │   │       ├── test_resolution.py
+        │   │       ├── test_skills.py
+        │   │       └── test_traits.py
         │   ├── infrastructure/
         │   │   ├── __init__.py
         │   │   └── test_dices.py
