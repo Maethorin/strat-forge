@@ -10,15 +10,27 @@ Base scaffold for a Python library project using a `src` layout.
 .
 ├── LICENSE.md
 ├── LICENSE-COMMERCIAL.md
+├── AGENTS.md
 ├── pyproject.toml
+├── ruff.toml
 ├── README.md
+├── setup.py
 ├── src/
 │   └── strat_forge/
-│       └── __init__.py
+│       ├── __init__.py
+│       ├── exceptions.py
+│       ├── services.py
+│       └── forge/
+│           ├── __init__.py
+│           └── skills.py
 └── tests/
     └── unit/
         ├── strat_forge/
-        │   └── test___init__.py
+        │   ├── forge/
+        │   │   └── test_skills.py
+        │   ├── test___init__.py
+        │   ├── test_exceptions.py
+        │   └── test_services.py
         ├── test_github_actions.py
         ├── test_pyproject.py
         ├── test_readme.py
