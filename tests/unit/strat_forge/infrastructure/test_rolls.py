@@ -15,7 +15,7 @@ class TestRollingThreeDice:
             assert end == 6
             return next(generated_values)
 
-        monkeypatch.setattr(rolls, "randint", fake_randint)
+        monkeypatch.setattr(rolls.random, "randint", fake_randint)
 
         three_dice_roller = rolls.ThreeDiceRoller.create()
         three_dice_roll = three_dice_roller.roll()

@@ -1,19 +1,19 @@
 """Infrastructure roll generators for StratForge."""
 
-from random import randint
-from typing import Self
+import random
+import typing
 
-from strat_forge.services import RollService
+from strat_forge import services
 
 
 class ThreeDiceRoller(object):
     """Generate three-dice rolls using the standard random module."""
 
     @classmethod
-    def create(cls) -> Self:
+    def create(cls) -> typing.Self:
         """Create a three-dice roller."""
         return cls()
 
     def roll(self) -> object:
         """Roll three six-sided dice and return the domain roll object."""
-        return RollService.domain.ThreeDiceRoll.create(first_die=randint(1, 6), second_die=randint(1, 6), third_die=randint(1, 6))
+        return services.RollService.domain.ThreeDiceRoll.create(first_die=random.randint(1, 6), second_die=random.randint(1, 6), third_die=random.randint(1, 6))

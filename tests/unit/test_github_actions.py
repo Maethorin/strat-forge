@@ -1,6 +1,6 @@
 """Unit tests for the GitHub Actions workflow contract."""
 
-from pathlib import Path
+import pathlib
 
 
 class TestGettingContinuousIntegrationWorkflow:
@@ -9,7 +9,7 @@ class TestGettingContinuousIntegrationWorkflow:
     def test_should_define_a_ci_workflow(self) -> None:
         """Assert that the repository exposes a CI workflow file."""
         workflow_path = (
-            Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ci.yml"
+            pathlib.Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ci.yml"
         )
 
         assert workflow_path.is_file()
@@ -17,7 +17,7 @@ class TestGettingContinuousIntegrationWorkflow:
     def test_should_run_tests_with_coverage_and_upload_to_codecov(self) -> None:
         """Assert that the CI workflow generates coverage and uploads it to Codecov."""
         workflow_path = (
-            Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ci.yml"
+            pathlib.Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ci.yml"
         )
         workflow_contents = workflow_path.read_text(encoding="utf-8")
 
@@ -28,7 +28,7 @@ class TestGettingContinuousIntegrationWorkflow:
     def test_should_run_on_pushes_to_the_master_branch(self) -> None:
         """Assert that the CI workflow targets the repository default branch."""
         workflow_path = (
-            Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ci.yml"
+            pathlib.Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ci.yml"
         )
         workflow_contents = workflow_path.read_text(encoding="utf-8")
 

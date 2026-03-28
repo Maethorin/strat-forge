@@ -1,10 +1,10 @@
 """Roll domain models for StratForge."""
 
-from dataclasses import dataclass
-from typing import Self
+import dataclasses
+import typing
 
 
-@dataclass(frozen=True, slots=True)
+@dataclasses.dataclass(frozen=True, slots=True)
 class ThreeDiceRoll:
     """Represent a roll composed of three six-sided dice."""
 
@@ -13,7 +13,7 @@ class ThreeDiceRoll:
     third_die: int
 
     @classmethod
-    def create(cls, first_die: int, second_die: int, third_die: int) -> Self:
+    def create(cls, first_die: int, second_die: int, third_die: int) -> typing.Self:
         """Create a three-dice roll from individual die values."""
         return cls(first_die=first_die, second_die=second_die, third_die=third_die)
 

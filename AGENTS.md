@@ -1084,6 +1084,28 @@ Usage must always be qualified through the module:
 
     services.RollService
 
+Exception:
+
+    from strat_forge import classproperty
+
+`classproperty` is the only approved direct object import for this rule while it remains exposed as a package-level descriptor instead of a dedicated module.
+
+---
+
+### Rule: Do Not Use Redundant Module Aliases
+
+Do not alias a module to the same generic name it already exposes at the end of its path when that alias adds no clarity.
+
+Forbidden:
+
+    import strat_forge.exceptions as exceptions
+
+Required:
+
+    from strat_forge import exceptions
+
+Use aliases only when they introduce real disambiguation or improve clarity in a meaningful way.
+
 ---
 
 ### Rule: Use Module Names as Namespaces
