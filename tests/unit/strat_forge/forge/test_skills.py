@@ -16,18 +16,10 @@ class TestCreatingSkillDefinition:
 
     def test_should_create_a_skill_definition_from_domain_values(self) -> None:
         """Assert that a skill definition keeps the configured domain values."""
-        skill_definition = skills.SkillDefinition.create(
-            name="Broadsword",
-            governing_attribute=skills.SkillAttribute.DEXTERITY,
-            difficulty=skills.SkillDifficulty.AVERAGE,
-            category=skills.SkillCategory.COMBAT,
-        )
+        skill_definition = skills.SkillDefinition.create(name="Broadsword", governing_attribute=skills.SkillAttribute.DEXTERITY, difficulty=skills.SkillDifficulty.AVERAGE, category=skills.SkillCategory.COMBAT)
 
         assert skill_definition.name == "Broadsword"
-        assert (
-            skill_definition.governing_attribute
-            is skills.SkillAttribute.DEXTERITY
-        )
+        assert skill_definition.governing_attribute is skills.SkillAttribute.DEXTERITY
         assert skill_definition.difficulty is skills.SkillDifficulty.AVERAGE
         assert skill_definition.category is skills.SkillCategory.COMBAT
 
