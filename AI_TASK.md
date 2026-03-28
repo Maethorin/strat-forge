@@ -197,6 +197,83 @@ The agent must:
 
 ---
 
+## Documentation Behavior
+
+### Rule: Keep README Structure Section Updated
+
+Whenever the agent:
+
+- creates a new file
+- creates a new folder
+- moves or renames files or folders
+
+It must update the **Structure** section of `README.md` accordingly.
+
+The project structure documentation must always reflect the current state of the repository.
+
+Do not postpone this update.
+
+Documentation must be updated as part of the same task where the structural change occurs.
+
+---
+
+### Rule: Structure Documentation Must Be Accurate and Readable
+
+When updating the Structure section:
+
+- keep formatting clean and consistent
+- reflect real folder hierarchy
+- avoid outdated or missing entries
+- do not include irrelevant files (e.g., caches, temporary files)
+
+The README is considered part of the deliverable.
+
+---
+
+### Rule: Documentation Is Part of Definition of Done
+
+A task that modifies project structure is not complete until:
+
+- the README Structure section is updated
+- the structure accurately reflects the current repository
+
+Failing to update documentation is considered an incomplete task.
+
+---
+
+### Rule: Documentation Changes Do Not Require Tests
+
+Changes to documentation files (e.g., README.md, LICENSE, markdown files) must NOT generate unit or functional tests.
+
+TDD applies only to:
+- domain logic
+- application behavior
+- services
+- infrastructure code
+
+TDD does NOT apply to:
+- documentation
+- markdown files
+- comments
+- static text content
+
+Do not create tests for documentation updates under any circumstance.
+
+---
+
+### Rule: Do Not Treat Documentation as Testable Behavior
+
+Documentation is not executable behavior.
+
+Do not:
+- create tests for documentation
+- validate documentation through test cases
+- introduce test files related to README or markdown updates
+
+Documentation correctness is ensured by clarity and accuracy, not automated tests.
+
+---
+
 ## Completion Behavior
 
 ### Rule: Validate Before Finishing
