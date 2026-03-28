@@ -4,7 +4,6 @@ from pathlib import Path
 
 from setuptools import find_packages, setup
 
-
 README_PATH = Path(__file__).parent / "README.md"
 
 

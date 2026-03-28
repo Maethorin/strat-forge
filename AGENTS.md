@@ -996,6 +996,73 @@ Never break rules just to pass tests.
 - infrastructure supports only
 
 ---
+### Rule: Do Not Break Method Signatures Across Multiple Lines
+
+Method and function definitions must not split parameters across multiple lines.
+
+Even if the line exceeds typical length limits (e.g., 80 or 100 characters), keep the full signature on a single line.
+
+Preferred:
+
+    def create(cls, name: str, governing_attribute: SkillAttribute, difficulty: SkillDifficulty, category: SkillCategory) -> Self:
+
+Avoid:
+
+    def create(
+        cls,
+        name: str,
+        governing_attribute: SkillAttribute,
+        difficulty: SkillDifficulty,
+        category: SkillCategory,
+    ) -> Self:
+
+This rule exists to:
+- improve readability
+- keep method signatures compact and scannable
+- maintain consistency across the codebase
+
+Line length limits must not override this rule.
+
+---
+
+### Rule: Formatting Tools Must Respect Project Style
+
+Automatic formatters (e.g., ruff format) must not override project-specific style rules.
+
+If a formatter conflicts with these rules:
+- adjust the formatter configuration
+- or avoid applying formatting that breaks project conventions
+
+---
+
+### Rule: Do Not Enforce PEP 8 Line Length Limits
+
+The project does NOT enforce the PEP 8 line length recommendation (e.g., 79/80/100/120 characters).
+
+Long lines are acceptable when they improve:
+- readability
+- cohesion
+- code clarity
+
+Do NOT:
+- break lines artificially to satisfy line length limits
+- split method signatures, function calls, or expressions solely to fit within a character limit
+
+Line breaks must be driven by readability, not by arbitrary limits.
+
+Modern development environments provide horizontal scrolling and wide displays, making strict line length limits unnecessary.
+
+This rule overrides any formatter or tool default related to line length.
+
+---
+
+### Rule: Prefer Readability To Formatter Conventions
+
+If a formatting tool suggests changes that reduce readability in order to enforce style rules (such as line wrapping), those changes must be ignored.
+
+Project-specific readability rules always take precedence over generic style conventions.
+
+---
 
 ## Implementation Checklist
 

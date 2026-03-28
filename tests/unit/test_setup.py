@@ -1,7 +1,7 @@
 """Unit tests for the project setup module."""
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 from strat_forge import __version__
 

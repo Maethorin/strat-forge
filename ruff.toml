@@ -1,0 +1,53 @@
+# Ruff configuration for StratForge
+
+# -----------------------------
+# Core Settings
+# -----------------------------
+target-version = "py314"
+line-length = 320
+
+# -----------------------------
+# Linting Rules
+# -----------------------------
+[lint]
+
+# Enable a solid but not intrusive rule set
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # warnings
+    "C90", # complexity
+    "I",   # import sorting
+]
+
+# Ignore rules that conflict with project philosophy
+ignore = [
+    "E501",  # line too long (IMPORTANT: we disable this)
+]
+
+# -----------------------------
+# Formatting
+# -----------------------------
+[format]
+
+# Keep formatting predictable but NOT aggressive
+quote-style = "double"
+indent-style = "space"
+
+# VERY IMPORTANT: prevent aggressive line wrapping
+skip-magic-trailing-comma = true
+
+# -----------------------------
+# Import Sorting
+# -----------------------------
+[lint.isort]
+
+known-first-party = ["strat_forge"]
+combine-as-imports = true
+split-on-trailing-comma = false
+
+# -----------------------------
+# Complexity (optional tuning)
+# -----------------------------
+[lint.mccabe]
+max-complexity = 10

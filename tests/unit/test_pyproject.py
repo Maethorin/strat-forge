@@ -1,7 +1,7 @@
 """Unit tests for the project pyproject configuration."""
 
-from pathlib import Path
 import tomllib
+from pathlib import Path
 
 from strat_forge import __version__
 
