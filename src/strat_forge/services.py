@@ -12,11 +12,6 @@ class Service(object):
 
     _domain: str | None = None
 
-    @classmethod
-    def create(cls) -> typing.Self:
-        """Create a service instance."""
-        return cls()
-
     @classproperty
     def domain(cls) -> types.ModuleType:
         """Return the configured domain module for the concrete service."""
@@ -29,3 +24,8 @@ class RollService(Service):
     """Resolve the roll domain module."""
 
     _domain = "strat_forge.forge.rolls"
+
+    @classmethod
+    def create_a_three_dice_roll(cls, first_die: int, second_die: int, third_die: int) -> object:
+        """Create a three-dice domain roll from explicit die values."""
+        return cls.domain.ThreeDiceRoll.create(first_die=first_die, second_die=second_die, third_die=third_die)

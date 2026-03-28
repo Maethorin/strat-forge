@@ -6,8 +6,8 @@ import strat_forge.infrastructure.rolls as rolls
 class TestRollingThreeDice:
     """Describe the three-dice infrastructure rolling contract."""
 
-    def test_should_roll_three_dice_and_return_a_domain_roll(self, monkeypatch) -> None:
-        """Assert that the roller returns a three-dice domain roll."""
+    def test_should_roll_three_dice_and_return_three_die_values(self, monkeypatch) -> None:
+        """Assert that the roller returns three technical die values."""
         generated_values = iter((2, 4, 5))
 
         def fake_randint(start: int, end: int) -> int:
@@ -18,9 +18,6 @@ class TestRollingThreeDice:
         monkeypatch.setattr(rolls.random, "randint", fake_randint)
 
         three_dice_roller = rolls.ThreeDiceRoller.create()
-        three_dice_roll = three_dice_roller.roll()
+        three_dice_values = three_dice_roller.roll()
 
-        assert three_dice_roll.first_die == 2
-        assert three_dice_roll.second_die == 4
-        assert three_dice_roll.third_die == 5
-        assert three_dice_roll.total == 11
+        assert three_dice_values == (2, 4, 5)

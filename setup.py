@@ -1,13 +1,13 @@
 """Setuptools configuration for the StratForge package."""
 
-from pathlib import Path
+import pathlib
 
-from setuptools import find_packages, setup
+import setuptools
 
-README_PATH = Path(__file__).parent / "README.md"
+README_PATH = pathlib.Path(__file__).parent / "README.md"
 
 
-setup(
+setuptools.setup(
     name="StratForge",
     version="0.0.1",
     description="Base package for the StratForge Python library.",
@@ -15,7 +15,7 @@ setup(
     long_description_content_type="text/markdown",
     license_files=["LICENSE.md", "LICENSE-COMMERCIAL.md"],
     package_dir={"": "src"},
-    packages=find_packages(where="src"),
+    packages=setuptools.find_packages(where="src"),
     python_requires=">=3.14",
     install_requires=[],
     extras_require={"dev": ["pytest>=8.0", "pytest-cov>=6.0", "ruff>=0.15.8"]},

@@ -19,7 +19,7 @@ class TestGettingSetupConfiguration:
 
         assert 'name="StratForge"' in setup_contents
         assert 'package_dir={"": "src"}' in setup_contents
-        assert 'packages=find_packages(where="src")' in setup_contents
+        assert 'packages=setuptools.find_packages(where="src")' in setup_contents
         assert 'python_requires=">=3.14"' in setup_contents
         assert '"ruff>=0.15.8"' in setup_contents
         assert '"pytest-cov>=6.0"' in setup_contents
@@ -38,7 +38,7 @@ class TestGettingSetupConfiguration:
         setup_path = pathlib.Path(__file__).resolve().parents[2] / "setup.py"
         setup_contents = setup_path.read_text(encoding="utf-8")
 
-        assert 'README_PATH = Path(__file__).parent / "README.md"' in setup_contents
+        assert 'README_PATH = pathlib.Path(__file__).parent / "README.md"' in setup_contents
         assert (
             'long_description=README_PATH.read_text(encoding="utf-8")' in setup_contents
         )

@@ -99,6 +99,20 @@ This layer may contain:
 - adapters for user-facing inputs/outputs
 - external libraries intended to support those concerns, such as Pydantic
 
+This layer is also the application entry point responsible for orchestrating calls between layers.
+
+The `api` layer may:
+- call `forge`
+- call `infrastructure`
+- obtain modules or instances through `services`
+- coordinate application/use-case flows
+- transform technical outputs into domain calls
+
+The `api` layer is the proper place for flows such as:
+- call infrastructure to obtain technical data
+- call forge to apply domain behavior
+- return adapted library-facing results
+
 ##### `forge`
 This is the domain layer of the library.
 
@@ -142,6 +156,8 @@ This layer exists to:
 - coordinate instantiation rules across the project
 - reduce direct coupling between modules
 - resolve project modules dynamically through `import_module` when needed
+
+This layer does NOT exist to execute use cases or business flows.
 
 ##### `exceptions`
 The top-level `strat_forge.exceptions` module contains the library custom exception hierarchy.
@@ -262,6 +278,7 @@ The following are forbidden unless the architecture is explicitly changed:
 - direct imports from `services` to `infrastructure`
 - direct imports from `services` to `api`
 - `infrastructure -> api`
+- `infrastructure -> forge` even through `services`
 - `forge -> api`
 
 ### Rule: No Layer Shortcuts
@@ -281,6 +298,10 @@ Violating a boundary is considered an architectural defect.
 
 ### Rule: Every Class Must Have a Factory Method
 Every class must provide a factory method, even if it is minimal.
+
+Exceptions:
+- `ClassProperty`
+- exception classes
 
 Examples:
 - `create`
@@ -317,10 +338,6 @@ Never do:
 Always do:
 
     dependency = SomeModuleService.get_some_class_instance()
-
-Or, when the service is responsible for module resolution:
-
-    dependency_module = SomeModuleService.domain
 This rule applies even if the target class is simple.
 
 ---
@@ -364,10 +381,29 @@ The base `Service` class resolves configured modules through `import_module`.
 
 Service implementations should:
 - set the `_domain` class attribute to the fully qualified module path they expose
-- access the target module through the `domain` class property
+- access the target module through the `domain` class property internally inside the service implementation
 - raise a library exception when used without a concrete domain configuration
 
 Do not replace this mechanism with direct imports in the service class body when the purpose is decoupled module resolution.
+
+---
+
+### Rule: `Service.domain` Is Internal To Services
+The `domain` class property exists only for service internals.
+
+It must never be accessed from outside the service class that owns it.
+
+Do not do:
+
+    services.RollService.domain.ThreeDiceRoll.create(...)
+
+Do:
+
+    services.RollService.create_a_three_dice_roll(...)
+
+External code must use explicit service classmethods or factory methods exposed by the service.
+
+The purpose of `domain` is internal module resolution, not public access to forge or infrastructure modules.
 
 ---
 
@@ -400,6 +436,44 @@ Service classes may:
 - wire collaborating objects
 
 Service classes must not become generic dumping grounds.
+
+---
+
+### Rule: Services Are Proxies And Factories Only
+Services are limited to proxy and factory responsibilities.
+
+Services may:
+- return a module reference
+- return a class reference
+- return a configured instance
+- expose explicit factory/class access
+
+Services must not:
+- execute a domain action
+- execute an infrastructure action
+- call behavior such as `roll`, `move`, `attack`, `calculate_damage`, `resolve_*`, or similar use-case methods on behalf of callers
+- orchestrate a workflow across `forge` and `infrastructure`
+- transform technical values into domain outcomes
+- contain application/use-case flow
+
+If a flow needs to call multiple layers in sequence, that flow belongs in `api`, not in `services`.
+
+---
+
+### Rule: Service Wiring Must Stop At Returning Access
+When a service wires collaborators, the wiring must stop at returning access to a module, class, or instance.
+
+Valid:
+- return an infrastructure class
+- return a forge module
+- return a configured gateway instance
+
+Invalid:
+- call an infrastructure method and then call a forge method
+- call `roll()` and then build a domain object
+- call `calculate_*()` and return the computed business result
+
+Services must expose access, not execute the workflow that consumes that access.
 
 ---
 
@@ -906,6 +980,22 @@ Add integration-style tests when necessary to cover:
 - infrastructure wiring
 - serialization boundaries
 - end-to-end library flows
+
+---
+
+### Rule: During Domain-First TDD, Tests May Drive Forge Directly
+The project is developed domain-first.
+
+Until the `api` layer exists for a given feature, tests may call `forge` directly to drive domain behavior through TDD.
+
+This is a testing allowance only.
+
+It does NOT mean:
+- `infrastructure` may call `forge`
+- `services` may orchestrate domain flows
+- production code may bypass the future `api` entry layer
+
+Once the relevant `api` entry point exists, higher-level flow tests should prefer driving the behavior through `api`.
 
 ---
 
