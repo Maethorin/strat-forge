@@ -19,15 +19,24 @@ Base scaffold for a Python library project using a `src` layout.
 │   └── strat_forge/
 │       ├── __init__.py
 │       ├── exceptions.py
+│       ├── infrastructure/
+│       │   ├── __init__.py
+│       │   └── rolls.py
 │       ├── services.py
 │       └── forge/
 │           ├── __init__.py
+│           ├── rolls.py
 │           └── skills.py
 └── tests/
     └── unit/
         ├── strat_forge/
         │   ├── forge/
+        │   │   ├── __init__.py
+        │   │   ├── test_rolls.py
         │   │   └── test_skills.py
+        │   ├── infrastructure/
+        │   │   ├── __init__.py
+        │   │   └── test_rolls.py
         │   ├── test___init__.py
         │   ├── test_exceptions.py
         │   └── test_services.py
