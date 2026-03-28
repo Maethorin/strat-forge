@@ -10,7 +10,7 @@ from strat_forge import exceptions, services
 class SkillService(services.Service):
     """Concrete service used to validate import-based domain resolution."""
 
-    _domain = "strat_forge.forge.skills"
+    _domain = "strat_forge.forge.entities.skills"
 
     @classmethod
     def get_a_skill_module(cls) -> object:
@@ -37,7 +37,7 @@ class TestGettingServiceDomain:
 
     def test_should_return_the_configured_domain_module_through_a_service_method(self) -> None:
         """Assert that a concrete service resolves its configured module through a public method."""
-        expected_module = importlib.import_module("strat_forge.forge.skills")
+        expected_module = importlib.import_module("strat_forge.forge.entities.skills")
 
         assert SkillService.get_a_skill_module() is expected_module
 

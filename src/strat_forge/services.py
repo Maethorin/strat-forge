@@ -23,7 +23,7 @@ class Service(object):
 class RollService(Service):
     """Resolve the roll domain module."""
 
-    _domain = "strat_forge.forge.rolls"
+    _domain = "strat_forge.forge.resolution.rolls"
 
     @classmethod
     def create_a_three_dice_roll(cls, first_die: int, second_die: int, third_die: int) -> object:

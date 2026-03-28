@@ -25,15 +25,23 @@ Base scaffold for a Python library project using a `src` layout.
 │       ├── services.py
 │       └── forge/
 │           ├── __init__.py
-│           ├── rolls.py
-│           └── skills.py
+│           ├── entities/
+│           │   ├── __init__.py
+│           │   └── skills.py
+│           └── resolution/
+│               ├── __init__.py
+│               └── rolls.py
 └── tests/
     └── unit/
         ├── strat_forge/
         │   ├── forge/
         │   │   ├── __init__.py
-        │   │   ├── test_rolls.py
-        │   │   └── test_skills.py
+        │   │   ├── entities/
+        │   │   │   ├── __init__.py
+        │   │   │   └── test_skills.py
+        │   │   └── resolution/
+        │   │       ├── __init__.py
+        │   │       └── test_rolls.py
         │   ├── infrastructure/
         │   │   ├── __init__.py
         │   │   └── test_dices.py
