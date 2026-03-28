@@ -24,19 +24,19 @@ The purpose of this file is to guide AI coding agents working in this repository
 
 ## Environment
 
-- Primary virtual environment: `/home/maethorin/.virtualenvs/start-forge`
-- Preferred Python executable: `/home/maethorin/.virtualenvs/start-forge/bin/python`
-- Preferred pip executable: `/home/maethorin/.virtualenvs/start-forge/bin/pip`
+- Preferred virtual environment root: `$VIRTUALENVS`
+- Preferred Python executable: `${VIRTUALENVS}/strat-forge/bin/python`
+- Preferred pip executable: `${VIRTUALENVS}/strat-forge/bin/pip`
 
 ---
 
 ## Common Commands
 
 ```bash
-/home/maethorin/.virtualenvs/start-forge/bin/python -m pip install -e ".[dev]"
-/home/maethorin/.virtualenvs/start-forge/bin/python -m pytest
-/home/maethorin/.virtualenvs/start-forge/bin/python -m ruff format --check .
-/home/maethorin/.virtualenvs/start-forge/bin/python -m ruff check .
+${VIRTUALENVS}/strat-forge/bin/python -m pip install -e ".[dev]"
+${VIRTUALENVS}/strat-forge/bin/python -m pytest
+${VIRTUALENVS}/strat-forge/bin/python -m ruff format --check .
+${VIRTUALENVS}/strat-forge/bin/python -m ruff check .
 ```
 
 ---
@@ -85,7 +85,7 @@ Layers:
 - `api`
 - `forge`
 - `infrastructure`
-- `service`
+- `services`
 
 #### Layer Responsibilities
 
@@ -133,14 +133,23 @@ This layer may contain:
 
 This layer must not own business rules.
 
-##### `service`
-Contains service factories used for decoupling, dependency injection, and circular-import avoidance.
+##### `services`
+Contains service factories used for decoupling, dependency injection, circular-import avoidance, and controlled module resolution.
 
 This layer exists to:
 - provide class-based service access
 - centralize object resolution
 - coordinate instantiation rules across the project
 - reduce direct coupling between modules
+- resolve project modules dynamically through `import_module` when needed
+
+##### `exceptions`
+The top-level `strat_forge.exceptions` module contains the library custom exception hierarchy.
+
+This module exists to:
+- centralize reusable library exceptions
+- expose shared exception types across layers
+- keep exception naming and reuse explicit
 
 ### Rule: Allowed External Libraries
 External libraries may be used only when they clearly belong to the responsibility of the layer where they are introduced.
@@ -220,10 +229,13 @@ The following calls/import directions are allowed:
 
 - `api -> forge`
 - `api -> infrastructure`
-- `api -> service`
-- `forge -> service`
+- `api -> services`
+- `forge -> services`
 - `forge -> infrastructure`
-- `infrastructure -> service`
+- `infrastructure -> services`
+- `services -> forge` through `import_module`
+- `services -> infrastructure` through `import_module`
+- `services -> api` through `import_module` when explicitly required
 
 These directions apply to imports and effective dependency usage.
 
@@ -233,22 +245,22 @@ Do not introduce dependencies outside the allowed directions above.
 If a change appears to require an illegal import:
 1. stop,
 2. identify the architectural conflict,
-3. introduce or use an appropriate service class in `service`,
+3. introduce or use an appropriate service class in `services`,
 4. preserve the dependency rules.
 
 ### Rule: No Layer Violations
 If you need a dependency that breaks this rule:
 1. stop
 2. create/use a service
-3. resolve via service layer
+3. resolve via services layer
 
 ## Forbidden Dependency Directions
 
 The following are forbidden unless the architecture is explicitly changed:
 
-- `service -> forge`
-- `service -> infrastructure`
-- `service -> api`
+- direct imports from `services` to `forge`
+- direct imports from `services` to `infrastructure`
+- direct imports from `services` to `api`
 - `infrastructure -> api`
 - `forge -> api`
 
@@ -305,12 +317,16 @@ Never do:
 Always do:
 
     dependency = SomeModuleService.get_some_class_instance()
+
+Or, when the service is responsible for module resolution:
+
+    dependency_module = SomeModuleService.domain
 This rule applies even if the target class is simple.
 
 ---
 
 ### Rule: All Collaborator Resolution Must Be Service-Mediated
-Whenever one class needs another class instance, it must obtain it through the appropriate service class.
+Whenever one class needs another class instance or domain module, it must obtain it through the appropriate service class.
 
 This is required for:
 - decoupling
@@ -333,6 +349,27 @@ Construction must remain explicit and discoverable.
 ---
 
 ## Service Layer Rules
+
+### Rule: Use the `services.py` Module
+Service classes live in `src/strat_forge/services.py` unless the architecture is intentionally expanded.
+
+Do not create a parallel `service` module or package.
+
+The canonical layer name is `services`.
+
+---
+
+### Rule: Service Classes Resolve Modules Through `import_module`
+The base `Service` class resolves configured modules through `import_module`.
+
+Service implementations should:
+- set the `_domain` class attribute to the fully qualified module path they expose
+- access the target module through the `domain` class property
+- raise a library exception when used without a concrete domain configuration
+
+Do not replace this mechanism with direct imports in the service class body when the purpose is decoupled module resolution.
+
+---
 
 ### Rule: One Service Class Per Module Family
 For each module or component family, there should be a corresponding service class responsible for serving its main components.
@@ -668,8 +705,21 @@ It must not become the primary home of engine behavior.
 
 ## Error Handling Rules
 
-### Rule: Domain Errors Belong to the Domain
-Exceptions that represent domain rule violations should live in `forge`.
+### Rule: Custom Exceptions Live in `strat_forge.exceptions`
+All reusable custom exceptions for the library must be declared in `src/strat_forge/exceptions.py`.
+
+Use this module for:
+- shared architectural exceptions
+- domain exceptions
+- API-facing library exceptions
+- infrastructure exceptions that are part of the library contract
+
+Do not scatter custom exception declarations across unrelated modules unless a very strong reason is documented.
+
+---
+
+### Rule: Domain Errors May Inherit From the Shared Exceptions Module
+Exceptions that represent domain rule violations may be defined in `forge` only when they build on the shared exception hierarchy from `strat_forge.exceptions`.
 
 Examples:
 - invalid game state
@@ -866,7 +916,8 @@ Preferred top-level structure:
 - `api/`
 - `forge/`
 - `infrastructure/`
-- `service/`
+- `services.py`
+- `exceptions.py`
 - `tests/`
 
 If the project grows, subpackages should preserve layer meaning.
@@ -977,7 +1028,7 @@ The following patterns are forbidden unless explicitly requested:
 - business logic in infrastructure
 - business rules in serializers
 - business rules in validators
-- ad-hoc service locator behavior outside the `service` layer
+- ad-hoc service locator behavior outside the `services` layer
 - silent fallback behavior that hides errors
 - procedural orchestration spread across unrelated modules
 - anemic domain objects when behavior belongs in the domain
